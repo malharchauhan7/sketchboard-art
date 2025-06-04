@@ -4,6 +4,8 @@ import React, { useState, useRef, useEffect } from "react";
 import { X, Plus, Palette, Eraser, RotateCcw } from "lucide-react";
 import DrawingBoard from "./DrawingBoard";
 import Image from "next/image";
+import Link from "next/link";
+
 const Sketchboard = () => {
   const [sketches, setSketches] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -131,18 +133,20 @@ const Sketchboard = () => {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-5 ">
-          <div className="flex items-center justify-center gap-2">
-            <Image
-              src="/logo.webp"
-              alt="Logo"
-              width={100}
-              height={100}
-              className="mb-2"
-            />
-            <h1 className="text-4xl font-bold text-[#51252C] mb-4">
-              Creative Sketchboard
-            </h1>
-          </div>
+          <Link href="/">
+            <div className="flex items-center justify-center gap-2">
+              <Image
+                src="/logo.webp"
+                alt="Logo"
+                width={100}
+                height={100}
+                className="mb-2"
+              />
+              <h1 className="text-4xl font-bold text-[#51252C] mb-4">
+                Creative Sketchboard
+              </h1>
+            </div>
+          </Link>
 
           <button
             onClick={() => setIsModalOpen(true)}

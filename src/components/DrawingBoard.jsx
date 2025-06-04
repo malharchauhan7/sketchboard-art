@@ -140,9 +140,9 @@ const DrawingBoard = ({ isOpen, onSave, onCancel }) => {
           </h2>
           <button
             onClick={onCancel}
-            className="text-gray-500 hover:text-gray-700 transition-colors"
+            className="text-gray-500 hover:text-gray-700 transition-colors cursor-pointer"
           >
-            <X size={24} className="cursor-pointer" />
+            <X size={24} />
           </button>
         </div>
         {/* Drawing Tools */}
@@ -150,7 +150,7 @@ const DrawingBoard = ({ isOpen, onSave, onCancel }) => {
           <div className="flex gap-2 mb-3">
             <button
               onClick={() => setTool("brush")}
-              className={`p-2 rounded-lg transition-colors ${
+              className={`p-2 rounded-lg transition-colors cursor-pointer ${
                 tool === "brush"
                   ? "bg-[#F16437] text-white"
                   : "bg-gray-200 text-gray-700"
@@ -160,7 +160,7 @@ const DrawingBoard = ({ isOpen, onSave, onCancel }) => {
             </button>
             <button
               onClick={() => setTool("eraser")}
-              className={`p-2 rounded-lg transition-colors ${
+              className={`p-2 rounded-lg transition-colors cursor-pointer ${
                 tool === "eraser"
                   ? "bg-[#F16437] text-white"
                   : "bg-gray-200 text-gray-700"

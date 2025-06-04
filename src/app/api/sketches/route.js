@@ -6,10 +6,23 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false },
 });
 
+function getNumericDateTimeId() {
+  const now = new Date();
+  const pad = (n, l = 2) => n.toString().padStart(l, "0");
+  return Number(
+    pad(now.getDate()) +
+      pad(now.getMonth() + 1) +
+      now.getFullYear() +
+      pad(now.getHours()) +
+      pad(now.getMinutes()) +
+      pad(now.getSeconds())
+  );
+}
+
 export async function GET() {
   try {
     const { rows } = await pool.query(
-      "SELECT id, name, drawing FROM sketches ORDER BY id DESC"
+      "SELECT id, name, drawing FROM sketches_datetime ORDER BY created DESC"
     );
     return NextResponse.json(rows);
   } catch (error) {
@@ -26,9 +39,10 @@ export async function POST(request) {
         { status: 400 }
       );
     }
+    const id = getNumericDateTimeId();
     const result = await pool.query(
-      "INSERT INTO sketches (name, drawing) VALUES ($1, $2) RETURNING id, name, drawing",
-      [name, drawing]
+      "INSERT INTO sketches_datetime (id, name, drawing) VALUES ($1, $2, $3) RETURNING id, name, drawing",
+      [id, name, drawing]
     );
     return NextResponse.json(result.rows[0], { status: 201 });
   } catch (error) {
