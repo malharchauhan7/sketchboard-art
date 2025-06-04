@@ -22,9 +22,8 @@ const Sketchboard = () => {
       try {
         const res = await fetch("/api/sketches");
         const data = await res.json();
-        setSketches(data);
+        setSketches(Array.isArray(data) ? data : []);
       } catch (err) {
-        // Optionally handle error
         setSketches([]);
       }
     }
@@ -128,87 +127,92 @@ const Sketchboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-100 to-gray-50 p-8">
+    <div className="min-h-screen bg-gradient-to-br from-[#FFEDCF] to-[#FFEDCF] p-8">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">
-            Creative Sketchboard
-          </h1>
-          <p className="text-xl text-gray-600 mb-8">
-            Leave your mark! Draw something
-          </p>
+        <div className="text-center mb-5 ">
+          <div className="flex items-center justify-center gap-2">
+            <Image
+              src="/logo.webp"
+              alt="Logo"
+              width={100}
+              height={100}
+              className="mb-2"
+            />
+            <h1 className="text-4xl font-bold text-[#51252C] mb-4">
+              Creative Sketchboard
+            </h1>
+          </div>
+
           <button
             onClick={() => setIsModalOpen(true)}
-            className=" bg-teal-500 hover:bg-teal-550 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 hover:rounded-2xl  hover:scale-105   text-lg shadow-lg hover:shadow-xl transform  flex items-center gap-2 mx-auto cursor-pointer"
+            className=" bg-[#F16437] hover:bg-[#E55B5C] text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 hover:rounded-2xl  hover:scale-105   text-lg shadow-lg hover:shadow-xl transform  flex items-center gap-2 mx-auto cursor-pointer"
           >
             <Plus size={24} />
             Add Your Sketch
           </button>
+          <p className="text-xl text-[#51252C] mt-4">
+            Leave your mark! Draw something
+          </p>
         </div>
 
         {/* Sketches Board - Random Positioning */}
-        <div className="relative min-h-[800px] bg-white/30 rounded-2xl backdrop-blur-sm border-10 border-gray/20 p-8 shadow-xl ">
-          {sketches.map((sketch, index) => {
-            // Generate consistent random values based on sketch ID
-            const seed1 = Math.abs(Math.sin(sketch.id * 12345) * 10000);
-            const seed2 = Math.abs(Math.sin(sketch.id * 67890) * 10000);
-            const seed3 = Math.abs(Math.sin(sketch.id * 54321) * 10000);
+        <div className="relative min-h-[800px] bg-white/30 rounded-2xl backdrop-blur-sm border-10 border-[#51252C]/30 p-8 shadow-xl ">
+          {Array.isArray(sketches) && sketches.length > 0 ? (
+            sketches.map((sketch, index) => {
+              // Generate consistent random values based on sketch ID
+              const seed1 = Math.abs(Math.sin(sketch.id * 12345) * 10000);
+              const seed2 = Math.abs(Math.sin(sketch.id * 67890) * 10000);
+              const seed3 = Math.abs(Math.sin(sketch.id * 54321) * 10000);
 
-            const x = (seed1 % 60) + 5; // 5% to 65% from left
-            const y = (seed2 % 50) + 5; // 5% to 55% from top
-            const rotation = (seed3 % 30) - 15; // -15° to +15°
-            const scale = 0.9 + ((seed1 * 7) % 20) / 100; // 0.9 to 1.1 scale
+              const x = (seed1 % 60) + 5; // 5% to 65% from left
+              const y = (seed2 % 50) + 5; // 5% to 55% from top
+              const rotation = (seed3 % 30) - 15; // -15° to +15°
+              const scale = 0.9 + ((seed1 * 7) % 20) / 100; // 0.9 to 1.1 scale
 
-            return (
-              <div
-                key={sketch.id}
-                className="absolute bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 p-4 border-2 border-gray-100 cursor-pointer"
-                style={{
-                  left: `${x}%`,
-                  top: `${y}%`,
-                  transform: `rotate(${rotation}deg) scale(${scale})`,
-                  transformOrigin: "center center",
-                  width: "140px",
-                  zIndex: 10 + index,
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = `rotate(0deg) scale(1.1)`;
-                  e.currentTarget.style.zIndex = "100";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = `rotate(${rotation}deg) scale(${scale})`;
-                  e.currentTarget.style.zIndex = 10 + index;
-                }}
-              >
-                <div className="aspect-square bg-gray-50 rounded-lg mb-2 flex items-center justify-center border-2 border-dashed border-gray-200">
-                  {sketch.drawing ? (
-                    <Image
-                      src={sketch.drawing}
-                      alt={`Sketch by ${sketch.name}`}
-                      width={100}
-                      height={100}
-                      className="w-full h-full object-cover rounded-lg"
-                    />
-                  ) : sketch.letter ? (
-                    <span
-                      className="text-2xl font-bold"
-                      style={{ color: sketch.color }}
-                    >
-                      {sketch.letter}
-                    </span>
-                  ) : (
-                    <span className="text-2xl">{sketch.emoji}</span>
-                  )}
+              return (
+                <div
+                  key={sketch.id}
+                  className="absolute bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 p-4 border-2 border-gray-100 cursor-pointer"
+                  style={{
+                    left: `${x}%`,
+                    top: `${y}%`,
+                    transform: `rotate(${rotation}deg) scale(${scale})`,
+                    transformOrigin: "center center",
+                    width: "140px",
+                    zIndex: 10 + index,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = `rotate(0deg) scale(1.1)`;
+                    e.currentTarget.style.zIndex = "100";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = `rotate(${rotation}deg) scale(${scale})`;
+                    e.currentTarget.style.zIndex = 10 + index;
+                  }}
+                >
+                  <div className="aspect-square bg-gray-50 rounded-lg mb-2 flex items-center justify-center border-2 border-dashed border-gray-200">
+                    {sketch.drawing ? (
+                      <Image
+                        src={sketch.drawing}
+                        alt={`Sketch by ${sketch.name}`}
+                        width={100}
+                        height={100}
+                        className="w-full h-full object-cover rounded-lg"
+                      />
+                    ) : null}
+                  </div>
+                  <div className="text-center">
+                    <p className="text-xs font-medium text-gray-700 truncate">
+                      {sketch.name}
+                    </p>
+                  </div>
                 </div>
-                <div className="text-center">
-                  <p className="text-xs font-medium text-gray-700 truncate">
-                    {sketch.name}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })
+          ) : (
+            <div className="text-center text-gray-400">No sketches yet.</div>
+          )}
         </div>
 
         {/* Modal */}

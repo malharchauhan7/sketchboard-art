@@ -152,7 +152,7 @@ const DrawingBoard = ({ isOpen, onSave, onCancel }) => {
               onClick={() => setTool("brush")}
               className={`p-2 rounded-lg transition-colors ${
                 tool === "brush"
-                  ? "bg-blue-500 text-white"
+                  ? "bg-[#F16437] text-white"
                   : "bg-gray-200 text-gray-700"
               }`}
             >
@@ -162,7 +162,7 @@ const DrawingBoard = ({ isOpen, onSave, onCancel }) => {
               onClick={() => setTool("eraser")}
               className={`p-2 rounded-lg transition-colors ${
                 tool === "eraser"
-                  ? "bg-blue-500 text-white"
+                  ? "bg-[#F16437] text-white"
                   : "bg-gray-200 text-gray-700"
               }`}
             >
@@ -201,7 +201,7 @@ const DrawingBoard = ({ isOpen, onSave, onCancel }) => {
               max="25"
               value={brushSize}
               onChange={(e) => setBrushSize(parseInt(e.target.value))}
-              className="w-full cursor-pointer"
+              className="w-full cursor-pointer "
             />
           </div>
         </div>
@@ -229,7 +229,7 @@ const DrawingBoard = ({ isOpen, onSave, onCancel }) => {
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
             placeholder="Enter your name"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-gray-700"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#E55B5C] focus:border-transparent outline-none text-gray-700"
           />
         </div>
         {/* Action Buttons */}
@@ -242,7 +242,7 @@ const DrawingBoard = ({ isOpen, onSave, onCancel }) => {
           </button>
           <button
             onClick={handleSave}
-            className="flex-1 px-4 py-2 bg-gradient-to-r bg-pink-500 hover:bg-pink-600 text-white font-medium  rounded-lg transition-all duration-300 hover:rounded-2xl  hover:scale-105   text-lg shadow-lg hover:shadow-xl transform  flex items-center gap-2 mx-auto cursor-pointer justify-center"
+            className="flex-1 px-4 py-2 bg-gradient-to-r bg-[#F16437] hover:bg-[#E55B5C] text-white font-medium  rounded-lg transition-all duration-300 hover:rounded-2xl  hover:scale-105   text-lg shadow-lg hover:shadow-xl transform  flex items-center gap-2 mx-auto cursor-pointer justify-center"
             disabled={loading}
           >
             {loading ? "Saving..." : "Save Sketch"}
